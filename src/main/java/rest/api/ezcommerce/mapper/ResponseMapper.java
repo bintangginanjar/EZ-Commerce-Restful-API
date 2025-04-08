@@ -2,6 +2,7 @@ package rest.api.ezcommerce.mapper;
 
 import java.util.List;
 import rest.api.ezcommerce.entity.UserEntity;
+import rest.api.ezcommerce.model.TokenResponse;
 import rest.api.ezcommerce.model.UserResponse;
 
 public class ResponseMapper {
@@ -13,5 +14,14 @@ public class ResponseMapper {
                 .email(user.getEmail())
                 .role(roles)
                 .build();
+    }
+
+    public static TokenResponse ToTokenResponseMapper(UserEntity user, String token, List<String> roles) {
+        return TokenResponse.builder()
+                .email(user.getEmail())
+                .token(token)
+                .roles(roles)
+                .build();
+
     }
 }
