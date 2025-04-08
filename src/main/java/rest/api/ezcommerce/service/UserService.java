@@ -16,6 +16,7 @@ import rest.api.ezcommerce.entity.RoleEntity;
 import rest.api.ezcommerce.entity.UserEntity;
 import rest.api.ezcommerce.mapper.ResponseMapper;
 import rest.api.ezcommerce.model.RegisterUserRequest;
+import rest.api.ezcommerce.model.UpdateUserRequest;
 import rest.api.ezcommerce.model.UserResponse;
 import rest.api.ezcommerce.repository.RoleRepository;
 import rest.api.ezcommerce.repository.UserRepository;
@@ -49,10 +50,10 @@ public class UserService {
         validationService.validate(request);
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already registered");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registered");
         }
 
-        RoleEntity role = roleRepository.findByName(request.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Roles not found"));
+        RoleEntity role = roleRepository.findByName(request.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Roles not found"));
 
         UserEntity user = new UserEntity();
         user.setEmail(request.getEmail());        

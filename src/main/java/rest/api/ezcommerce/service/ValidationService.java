@@ -9,7 +9,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 
-@Service    
+@Service
 public class ValidationService {
     
     @Autowired
