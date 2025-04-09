@@ -302,20 +302,23 @@ public class ProfileControllerTest {
         user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
         userRepository.save(user);
 
+        String mockBearerToken = "Bearer " + mockToken;
+
         mockMvc.perform(
                 post("/api/profiles")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))                                               
+                        .content(objectMapper.writeValueAsString(request))
+                        .header("Authorization", mockBearerToken)                                               
         ).andExpectAll(
-                status().isUnauthorized()
+                status().isForbidden()
         ).andDo(result -> {
                 WebResponse<ProfileResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
             assertEquals(false, response.getStatus());        
         });
-    }
+    }    
 
     @Test
     void testGetProfileSuccess() throws Exception {
