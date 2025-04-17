@@ -1,5 +1,6 @@
 package rest.api.ezcommerce.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,14 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfileResponse {
+public class RegisterCategoryRequest {
 
-    private Integer id;
-
-    private String firstname;
-    
-    private String lastname;    
-    
-    private String phoneNumber;
+    @NotBlank
+    private String name;
 
 }

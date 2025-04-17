@@ -9,14 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfileResponse {
+public class CategoryResponse {
 
     private Integer id;
 
-    private String firstname;
-    
-    private String lastname;    
-    
-    private String phoneNumber;
+    private String name;
 
 }

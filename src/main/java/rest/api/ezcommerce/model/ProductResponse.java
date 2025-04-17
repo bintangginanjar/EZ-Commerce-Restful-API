@@ -9,14 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfileResponse {
+public class ProductResponse {
 
     private Integer id;
 
-    private String firstname;
-    
-    private String lastname;    
-    
-    private String phoneNumber;
+    private String category;
+
+    private String name;
+
+    private String description;
+
+    private Double price;
+
+    private Integer stock;
 
 }
