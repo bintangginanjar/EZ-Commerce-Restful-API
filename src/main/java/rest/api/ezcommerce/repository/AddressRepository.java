@@ -16,6 +16,8 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Integer>
 
     Optional<AddressEntity> findByTitle(String title);
 
+    Optional<AddressEntity> findByUserEntityAndId(UserEntity userEntity, Integer id);
+
     List<AddressEntity> findAllByUserEntityAndTitle(UserEntity user, String title);
 
 }

@@ -5,11 +5,15 @@ import java.util.stream.Collectors;
 
 import rest.api.ezcommerce.entity.AddressEntity;
 import rest.api.ezcommerce.entity.CategoryEntity;
+import rest.api.ezcommerce.entity.OrderEntity;
+import rest.api.ezcommerce.entity.OrderItemEntity;
 import rest.api.ezcommerce.entity.ProductEntity;
 import rest.api.ezcommerce.entity.ProfileEntity;
 import rest.api.ezcommerce.entity.UserEntity;
 import rest.api.ezcommerce.model.AddressResponse;
 import rest.api.ezcommerce.model.CategoryResponse;
+import rest.api.ezcommerce.model.OrderItemResponse;
+import rest.api.ezcommerce.model.OrderResponse;
 import rest.api.ezcommerce.model.ProductResponse;
 import rest.api.ezcommerce.model.ProfileResponse;
 import rest.api.ezcommerce.model.TokenResponse;
@@ -106,5 +110,39 @@ public class ResponseMapper {
                                     p.getPrice(),
                                     p.getStock()
                                 )).collect(Collectors.toList());
+    }
+
+    public static OrderResponse ToOrderResponseMapper(OrderEntity order) {
+        return OrderResponse.builder()
+                .id(order.getId())
+                .orderId(order.getOrderId())
+                .totalAmount(order.getTotalAmount())
+                .status(order.getStatus())
+                .remark(order.getRemark())
+                .build();
+    }
+
+    public static List<OrderResponse> ToOrderResponseListMapper(List<OrderEntity> orders) {
+        return orders.stream()
+                        .map(
+                            p -> new OrderResponse(
+                                p.getId(),
+                                p.getOrderId(),
+                                p.getTotalAmount(),
+                                p.getStatus(),
+                                p.getRemark()
+                            )).collect(Collectors.toList());
+    }
+
+    public static OrderItemResponse ToOrderItemResponseMapper(OrderItemEntity item) {
+        return OrderItemResponse.builder()
+                .id(item.getId())
+                .orderId(item.getOrderEntity().getOrderId())
+                .productId(item.getProductEntity().getId())
+                .productName(item.getProductEntity().getName())
+                .productPrice(item.getProductEntity().getPrice())
+                .quantity(item.getQuantity())
+                .amount(item.getAmount())
+                .build();
     }
 }

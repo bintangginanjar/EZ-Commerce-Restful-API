@@ -12,6 +12,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
 
     Optional<CategoryEntity> findFirstByUserEntityAndId(UserEntity user, Integer id);
 
+    Optional<CategoryEntity> findFirstById(Integer id);
+
     Optional<CategoryEntity> findByName(String name);    
 
     List<CategoryEntity> findAllByUserEntity(UserEntity user);

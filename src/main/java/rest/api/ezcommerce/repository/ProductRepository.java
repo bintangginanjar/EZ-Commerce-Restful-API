@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
     List<ProductEntity> findAllByUserEntity(UserEntity user);
 
+    Optional<ProductEntity> findFirstById(Integer id);
+
 }
