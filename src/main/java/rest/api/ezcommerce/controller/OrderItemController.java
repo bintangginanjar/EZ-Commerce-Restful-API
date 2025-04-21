@@ -1,9 +1,12 @@
 package rest.api.ezcommerce.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +40,24 @@ public class OrderItemController {
         OrderItemResponse response = orderItemService.register(authentication, request, orderId);
 
         return WebResponse.<OrderItemResponse>builder()
+                                        .status(true)
+                                        .messages("Order item registration success")
+                                        .data(response)
+                                        .build();      
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping(
+        path = "/api/orders/{orderId}/items",      
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<List<OrderItemResponse>> get(Authentication authentication,
+                                            @PathVariable("orderId") String orderId) {
+
+        List<OrderItemResponse> response = orderItemService.get(authentication, orderId);
+
+        return WebResponse.<List<OrderItemResponse>>builder()
                                         .status(true)
                                         .messages("Order item registration success")
                                         .data(response)

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import rest.api.ezcommerce.entity.AddressEntity;
+import rest.api.ezcommerce.entity.CartItemEntity;
 import rest.api.ezcommerce.entity.CategoryEntity;
 import rest.api.ezcommerce.entity.OrderEntity;
 import rest.api.ezcommerce.entity.OrderItemEntity;
@@ -11,6 +12,7 @@ import rest.api.ezcommerce.entity.ProductEntity;
 import rest.api.ezcommerce.entity.ProfileEntity;
 import rest.api.ezcommerce.entity.UserEntity;
 import rest.api.ezcommerce.model.AddressResponse;
+import rest.api.ezcommerce.model.CartItemResponse;
 import rest.api.ezcommerce.model.CategoryResponse;
 import rest.api.ezcommerce.model.OrderItemResponse;
 import rest.api.ezcommerce.model.OrderResponse;
@@ -144,5 +146,39 @@ public class ResponseMapper {
                 .quantity(item.getQuantity())
                 .amount(item.getAmount())
                 .build();
+    }
+
+    public static List<OrderItemResponse> ToOrderItemListResponseMapper(List<OrderItemEntity> orders) {
+        return orders.stream()
+                        .map(
+                            p -> new OrderItemResponse(
+                                p.getId(),
+                                p.getOrderEntity().getOrderId(),
+                                p.getProductEntity().getId(),
+                                p.getProductEntity().getName(),
+                                p.getProductEntity().getPrice(),
+                                p.getQuantity(),
+                                p.getAmount()                        
+                            )).collect(Collectors.toList());
+    }
+
+    public static CartItemResponse ToCartItemResponseMapper(CartItemEntity item) {
+        return CartItemResponse.builder()
+                .id(item.getId())
+                .cartId(item.getCartEntity().getId())
+                .productName(item.getProductEntity().getName())
+                .quantity(item.getQuantity())
+                .build();
+    }
+
+    public static List<CartItemResponse> ToCartItemListResponseMapper(List<CartItemEntity> items) {
+        return items.stream()
+                        .map(
+                            p -> new CartItemResponse(
+                                p.getId(),
+                                p.getCartEntity().getId(),
+                                p.getProductEntity().getName(),
+                                p.getQuantity()                              
+                            )).collect(Collectors.toList());
     }
 }

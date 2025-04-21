@@ -1,5 +1,7 @@
 package rest.api.ezcommerce.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -66,5 +68,18 @@ public class OrderItemService {
         orderItemRepository.save(item);
 
         return ResponseMapper.ToOrderItemResponseMapper(item);
-    }    
+    }
+
+    @Transactional
+    public List<OrderItemResponse> get(Authentication authentication, String strOrderId) {
+        UserEntity user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+                    OrderEntity order = orderRepository.findByUserEntityAndOrderId(user, strOrderId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        List<OrderItemEntity> orders = orderItemRepository.findAllByOrderEntity(order);
+
+        return ResponseMapper.ToOrderItemListResponseMapper(orders);
+    }
 }
