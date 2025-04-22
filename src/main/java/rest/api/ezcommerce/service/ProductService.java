@@ -192,7 +192,7 @@ public class ProductService {
         try {
             productRepository.delete(product);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Delete address failed");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Delete product failed");
         }                    
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import rest.api.ezcommerce.entity.AddressEntity;
+import rest.api.ezcommerce.entity.CartEntity;
 import rest.api.ezcommerce.entity.CartItemEntity;
 import rest.api.ezcommerce.entity.CategoryEntity;
 import rest.api.ezcommerce.entity.OrderEntity;
@@ -13,6 +14,7 @@ import rest.api.ezcommerce.entity.ProfileEntity;
 import rest.api.ezcommerce.entity.UserEntity;
 import rest.api.ezcommerce.model.AddressResponse;
 import rest.api.ezcommerce.model.CartItemResponse;
+import rest.api.ezcommerce.model.CartResponse;
 import rest.api.ezcommerce.model.CategoryResponse;
 import rest.api.ezcommerce.model.OrderItemResponse;
 import rest.api.ezcommerce.model.OrderResponse;
@@ -180,5 +182,12 @@ public class ResponseMapper {
                                 p.getProductEntity().getName(),
                                 p.getQuantity()                              
                             )).collect(Collectors.toList());
+    }
+
+    public static CartResponse ToCartResponseMapper(CartEntity cart) {
+        return CartResponse.builder()
+                .id(cart.getId())            
+                .totalItems(cart.getTotalItems())
+                .build();
     }
 }

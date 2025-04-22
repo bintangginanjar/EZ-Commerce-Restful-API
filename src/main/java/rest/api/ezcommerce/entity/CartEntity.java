@@ -33,7 +33,7 @@ public class CartEntity {
     private Integer id;
 
     @Column(name = "total_item")
-    private Integer totalItem;
+    private Integer totalItems;
 
     @OneToOne
     @JoinColumn(name = "user_id")

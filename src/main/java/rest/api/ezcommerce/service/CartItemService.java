@@ -69,7 +69,7 @@ public class CartItemService {
         return ResponseMapper.ToCartItemResponseMapper(item);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<CartItemResponse> list(Authentication authentication) {
         UserEntity user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
@@ -80,6 +80,32 @@ public class CartItemService {
         List<CartItemEntity> items = cartItemRepository.findAllByCartEntity(cart);
 
         return ResponseMapper.ToCartItemListResponseMapper(items);
+    }
+
+    @Transactional
+    public void delete(Authentication authentication, String strItemId) {
+        Integer itemId = 0;
+
+        try {
+            itemId = Integer.parseInt(strItemId);       
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request");
+        }
+
+        UserEntity user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        CartEntity cart = cartRepository.findByUserEntity(user)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
+
+        CartItemEntity item = cartItemRepository.findFirstByCartEntityAndId(cart, itemId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found"));
+
+        try {
+            cartItemRepository.delete(item);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Delete item failed");
+        } 
     }
 
 }

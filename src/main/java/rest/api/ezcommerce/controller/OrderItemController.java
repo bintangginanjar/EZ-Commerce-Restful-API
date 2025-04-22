@@ -52,7 +52,7 @@ public class OrderItemController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<List<OrderItemResponse>> get(Authentication authentication,
+    public WebResponse<List<OrderItemResponse>> list(Authentication authentication,
                                             @PathVariable("orderId") String orderId) {
 
         List<OrderItemResponse> response = orderItemService.get(authentication, orderId);
