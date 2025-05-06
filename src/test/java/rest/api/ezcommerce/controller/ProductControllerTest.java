@@ -1,7 +1,7 @@
 package rest.api.ezcommerce.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.Collections;
@@ -1151,6 +1151,7 @@ public class ProductControllerTest {
             });
 
             assertEquals(true, response.getStatus());
+            assertNotEquals(0, response.getData().size());
         });
     }
 
@@ -1669,7 +1670,7 @@ public class ProductControllerTest {
                 WebResponse<ProductResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
-            assertEquals(false, response.getStatus());
+            assertEquals(false, response.getStatus());            
         });
     }
 
@@ -1904,4 +1905,213 @@ public class ProductControllerTest {
             assertEquals(false, response.getStatus());
         });
     }
+
+    @Test
+    void testSearchProductsByName() throws Exception {
+        UserEntity user = userRepository.findByEmail(email).orElse(null);
+
+        CategoryEntity category = new CategoryEntity();
+        category.setName(categoryToys);
+        category.setUserEntity(user);
+        categoryRepository.save(category);
+
+        for (int i = 0; i < 100; i++) {
+            ProductEntity product = new ProductEntity();
+            product.setName(productName + i);
+            product.setDescription(productDescription + i);
+            product.setPrice(productPrice);
+            product.setStock(productStock);
+            product.setCategoryEntity(category);
+            product.setUserEntity(user);
+            productRepository.save(product);
+        }        
+
+        Authentication authentication = authenticationManager.authenticate(
+                                            new UsernamePasswordAuthenticationToken(
+                                                email, password)
+                                            );        
+
+        String mockToken = jwtUtil.generateToken(authentication);
+
+        user.setToken(mockToken);
+        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        userRepository.save(user);
+
+        String mockBearerToken = "Bearer " + mockToken;
+
+        mockMvc.perform(
+                get("/api/products/search")
+                        .queryParam("name", "Drone")                                            
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)                        
+                        .header("Authorization", mockBearerToken)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {                
+                WebResponse<List<ProductResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertEquals(true, response.getStatus());
+            assertEquals(10, response.getData().size());
+            assertEquals(10, response.getPaging().getTotalPage());
+            assertEquals(0, response.getPaging().getCurrentPage());
+            assertEquals(10, response.getPaging().getSize());
+        });
+    }
+
+    @Test
+    void testSearchProductsByDescription() throws Exception {
+        UserEntity user = userRepository.findByEmail(email).orElse(null);
+
+        CategoryEntity category = new CategoryEntity();
+        category.setName(categoryToys);
+        category.setUserEntity(user);
+        categoryRepository.save(category);
+
+        for (int i = 0; i < 100; i++) {
+            ProductEntity product = new ProductEntity();
+            product.setName(productName + i);
+            product.setDescription(productDescription + i);
+            product.setPrice(productPrice);
+            product.setStock(productStock);
+            product.setCategoryEntity(category);
+            product.setUserEntity(user);
+            productRepository.save(product);
+        }        
+
+        Authentication authentication = authenticationManager.authenticate(
+                                            new UsernamePasswordAuthenticationToken(
+                                                email, password)
+                                            );        
+
+        String mockToken = jwtUtil.generateToken(authentication);
+
+        user.setToken(mockToken);
+        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        userRepository.save(user);
+
+        String mockBearerToken = "Bearer " + mockToken;
+
+        mockMvc.perform(
+                get("/api/products/search")
+                        .queryParam("description", "Drone")                                            
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)                        
+                        .header("Authorization", mockBearerToken)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {                
+                WebResponse<List<ProductResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertEquals(true, response.getStatus());
+            assertEquals(10, response.getData().size());
+            assertEquals(10, response.getPaging().getTotalPage());
+            assertEquals(0, response.getPaging().getCurrentPage());
+            assertEquals(10, response.getPaging().getSize());
+        });
+    }
+
+    @Test
+    void testSearchProductsSuccess() throws Exception {
+        UserEntity user = userRepository.findByEmail(email).orElse(null);
+
+        CategoryEntity category = new CategoryEntity();
+        category.setName(categoryToys);
+        category.setUserEntity(user);
+        categoryRepository.save(category);
+
+        for (int i = 0; i < 100; i++) {
+            ProductEntity product = new ProductEntity();
+            product.setName(productName + i);
+            product.setDescription(productDescription + i);
+            product.setPrice(productPrice);
+            product.setStock(productStock);
+            product.setCategoryEntity(category);
+            product.setUserEntity(user);
+            productRepository.save(product);
+        }        
+
+        Authentication authentication = authenticationManager.authenticate(
+                                            new UsernamePasswordAuthenticationToken(
+                                                email, password)
+                                            );        
+
+        String mockToken = jwtUtil.generateToken(authentication);
+
+        user.setToken(mockToken);
+        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        userRepository.save(user);
+
+        String mockBearerToken = "Bearer " + mockToken;
+
+        mockMvc.perform(
+                get("/api/products/search")
+                        .queryParam("name", "Drone")                                            
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)                        
+                        .header("Authorization", mockBearerToken)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {                
+                WebResponse<List<ProductResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertEquals(true, response.getStatus());
+            assertEquals(10, response.getData().size());
+            assertEquals(10, response.getPaging().getTotalPage());
+            assertEquals(0, response.getPaging().getCurrentPage());
+            assertEquals(10, response.getPaging().getSize());
+        });
+
+        mockMvc.perform(
+                get("/api/products/search")
+                        .queryParam("description", "Drone")                                            
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)                        
+                        .header("Authorization", mockBearerToken)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {                
+                WebResponse<List<ProductResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertEquals(true, response.getStatus());
+            assertEquals(10, response.getData().size());
+            assertEquals(10, response.getPaging().getTotalPage());
+            assertEquals(0, response.getPaging().getCurrentPage());
+            assertEquals(10, response.getPaging().getSize());
+        });
+    }
+
+    @Test
+    void testSearchProductsNotFound() throws Exception {
+        UserEntity user = userRepository.findByEmail(email).orElse(null);        
+
+        Authentication authentication = authenticationManager.authenticate(
+                                            new UsernamePasswordAuthenticationToken(
+                                                email, password)
+                                            );        
+
+        String mockToken = jwtUtil.generateToken(authentication);
+
+        user.setToken(mockToken);
+        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        userRepository.save(user);
+
+        String mockBearerToken = "Bearer " + mockToken;
+
+        mockMvc.perform(
+                get("/api/products/search")                                            
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)                        
+                        .header("Authorization", mockBearerToken)
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {                
+                WebResponse<List<ProductResponse>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertEquals(true, response.getStatus());
+            assertEquals(0, response.getData().size());
+            assertEquals(0, response.getPaging().getTotalPage());
+            assertEquals(0, response.getPaging().getCurrentPage());
+            assertEquals(10, response.getPaging().getSize());
+        });
+    } 
 }

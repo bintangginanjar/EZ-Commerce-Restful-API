@@ -3,6 +3,7 @@ package rest.api.ezcommerce.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rest.api.ezcommerce.model.PagingResponse;
 import rest.api.ezcommerce.model.ProductResponse;
 import rest.api.ezcommerce.model.RegisterProductRequest;
+import rest.api.ezcommerce.model.SearchProductRequest;
 import rest.api.ezcommerce.model.UpdateProductRequest;
 import rest.api.ezcommerce.model.WebResponse;
 import rest.api.ezcommerce.service.ProductService;
@@ -134,6 +138,37 @@ public class ProductController {
                                         .status(true)
                                         .messages("Product delete success")                                        
                                         .build();      
+    }
+    
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping(
+        path = "/api/products/search",        
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<List<ProductResponse>> search(Authentication authentication, 
+                                                        @RequestParam(value = "name", required = false) String name,
+                                                        @RequestParam(value = "description", required = false) String description,
+                                                        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                                        @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+        SearchProductRequest request = SearchProductRequest.builder()
+                                        .page(page)
+                                        .size(size)
+                                        .name(name)
+                                        .description(description)
+                                        .build();
+
+        Page<ProductResponse> response = productService.search(request);
+        return WebResponse.<List<ProductResponse>>builder()
+                            .status(true)
+                            .messages("Product search executed successfully")
+                            .errors(null)
+                            .data(response.getContent())
+                            .paging(PagingResponse.builder()
+                                .currentPage(response.getNumber())
+                                .totalPage(response.getTotalPages())
+                                .size(response.getSize())
+                                .build())
+                            .build();
     }
 
 }

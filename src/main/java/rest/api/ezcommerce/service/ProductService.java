@@ -1,9 +1,17 @@
 package rest.api.ezcommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -17,6 +25,7 @@ import rest.api.ezcommerce.entity.UserEntity;
 import rest.api.ezcommerce.mapper.ResponseMapper;
 import rest.api.ezcommerce.model.ProductResponse;
 import rest.api.ezcommerce.model.RegisterProductRequest;
+import rest.api.ezcommerce.model.SearchProductRequest;
 import rest.api.ezcommerce.model.UpdateProductRequest;
 import rest.api.ezcommerce.repository.CategoryRepository;
 import rest.api.ezcommerce.repository.ProductRepository;
@@ -196,4 +205,75 @@ public class ProductService {
         }                    
     }
 
+    @SuppressWarnings("null")
+    @Transactional(readOnly = true)    
+    public Page<ProductResponse> search(SearchProductRequest request) {   
+        
+        Specification<ProductEntity> specification = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();            
+
+            if (Objects.nonNull(request.getName())) {
+                predicates.add(builder.or(
+                    builder.like(root.get("name"), "%"+request.getName()+"%")                    
+                ));
+            }
+            
+            if (Objects.nonNull(request.getDescription())) {
+                predicates.add(builder.or(                    
+                    builder.like(root.get("description"), "%"+request.getDescription()+"%")
+                ));
+            }
+
+            return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
+        };
+
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        Page<ProductEntity> products = productRepository.findAll(specification, pageable);
+        List<ProductResponse> productResponses = products
+                                                    .getContent()
+                                                    .stream()
+                                                    .map(product -> ResponseMapper.ToProductResponseMapper(product))
+                                                    .collect(Collectors.toList());
+
+        return new PageImpl<>(productResponses, pageable, products.getTotalElements());
+    }
+
+    /*
+    @SuppressWarnings("null")
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> search(Authentication authentication, SearchProductRequest request) {
+        UserEntity user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        Specification<ProductEntity> specification = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("user"), user));
+
+            if (Objects.nonNull(request.getName())) {
+                predicates.add(builder.or(
+                    builder.like(root.get("name"), "%"+request.getName()+"%")
+                ));
+            }
+
+            if (Objects.nonNull(request.getDescription())) {
+                predicates.add(builder.or(
+                    builder.like(root.get("description"), "%"+request.getDescription()+"%")
+                ));
+            }
+
+            return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
+        };
+
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        Page<ProductEntity> products = productRepository.findAll(specification, pageable);        
+        
+        List<ProductResponse> productResponses = products
+                                                    .getContent()
+                                                    .stream()
+                                                    .map(product -> ResponseMapper.ToProductResponseMapper(product))
+                                                    .collect(Collectors.toList());
+        
+        return new PageImpl<>(productResponses, pageable, products.getTotalElements());
+    }
+    */
 }

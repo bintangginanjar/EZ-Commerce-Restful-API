@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import rest.api.ezcommerce.entity.CategoryEntity;
 import rest.api.ezcommerce.entity.ProductEntity;
 import rest.api.ezcommerce.entity.UserEntity;
 
-public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
+public interface ProductRepository extends JpaRepository<ProductEntity, Integer>, JpaSpecificationExecutor<ProductEntity> {
 
     Optional<ProductEntity> findByUserEntityAndName(UserEntity user, String name);
 
