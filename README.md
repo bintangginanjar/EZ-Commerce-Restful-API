@@ -100,16 +100,14 @@ cd EZ-Commerce-Restful-API
 
 ## 📁 Project Structure
 
-src
-├── controller      # REST endpoints (ProductController, AuthController, etc.)
-├── dto             # Request & response models (e.g., LoginRequest, ProductResponse)
-├── model           # JPA entities (User, Product, Category, Order, etc.)
-├── repository      # Spring Data JPA repositories (UserRepository, ProductRepository, etc.)
-├── security        # JWT utilities and Spring Security config (JwtFilter, AuthEntryPoint, etc.)
-├── service         # Business logic layer (ProductService, AuthService, etc.)
-└── exception       # Global exception handling (Custom exceptions, handlers)
-
-
+| Folder       | Description                                  |
+| ------------ | -------------------------------------------- |
+| `controller` | Handles HTTP requests (REST API)             |
+| `dto`        | Data Transfer Objects (requests & responses) |
+| `model`      | JPA entities (e.g. User, Product)            |
+| `repository` | Spring Data JPA interfaces                   |
+| `security`   | JWT and security configuration               |
+| `service`    | Business logic and use cases                 |
 
 ## 🙋‍♂️ Author
 
