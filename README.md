@@ -78,8 +78,7 @@ Welcome to **EZ-Commerce**, a powerful and modular e-commerce backend built with
 | GET    | `/orders`  | Get current user's orders |
 | POST   | `/orders`  | Place a new order         |
 
-Full API specification can be accessed through this(https://github.com/bintangginanjar/EZ-Commerce-Restful-API/blob/main/docs/API.md) documentation
-
+Full API specification can be accessed through (https://github.com/bintangginanjar/EZ-Commerce-Restful-API/blob/main/docs/API.md)
 ---
 
 ## 🔐 Authentication
