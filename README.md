@@ -103,7 +103,9 @@ cd EZ-Commerce-Restful-API
 | Folder       | Description                                  |
 | ------------ | -------------------------------------------- |
 | `controller` | Handles HTTP requests (REST API)             |
-| `dto`        | Data Transfer Objects (requests & responses) |
+| `entity  `   | Data abstraction object                      |
+| `exception  `| Custom exceptions and global error handling  |
+| `mapper  `   | Data response mapper                         |
 | `model`      | JPA entities (e.g. User, Product)            |
 | `repository` | Spring Data JPA interfaces                   |
 | `security`   | JWT and security configuration               |
