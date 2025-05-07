@@ -100,12 +100,13 @@ cd EZ-Commerce-Restful-API
 
 ## 📁 Project Structure
 
-├── controller       # REST endpoints |
-├── dto              # Request & response models |
-├── model            # JPA entities |
-├── repository       # Database access layer |
-├── security         # Auth and JWT config |
-├── service          # Business logic |
+├── controller       # REST endpoints
+├── dto              # Request & response models
+├── model            # JPA entities
+├── repository       # Database access layer
+├── security         # Auth and JWT config
+├── service          # Business logic
+
 
 ## 🙋‍♂️ Author
 
