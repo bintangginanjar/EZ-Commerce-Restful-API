@@ -79,6 +79,7 @@ Welcome to **EZ-Commerce**, a powerful and modular e-commerce backend built with
 | POST   | `/orders`  | Place a new order         |
 
 Full API specification can be accessed through (https://github.com/bintangginanjar/EZ-Commerce-Restful-API/blob/main/docs/API.md)
+
 ---
 
 ## 🔐 Authentication
