@@ -56,6 +56,9 @@ public class AuthControllerTest {
     private JwtUtil jwtUtil;
 
     @Autowired
+    private SecurityConstants securityConstants;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private final String email = "test@gmail.com";
@@ -131,7 +134,7 @@ public class AuthControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -163,7 +166,7 @@ public class AuthControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken + "a";
@@ -195,7 +198,7 @@ public class AuthControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);        
         
         mockMvc.perform(

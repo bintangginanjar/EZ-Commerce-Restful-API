@@ -78,6 +78,9 @@ public class CartItemControllerTest {
     private JwtUtil jwtUtil;
 
     @Autowired
+    private SecurityConstants securityConstants;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private final String email = "test@gmail.com";
@@ -145,7 +148,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -204,7 +207,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -260,7 +263,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken + "a";
@@ -316,7 +319,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() - SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() - securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -372,7 +375,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         mockMvc.perform(
@@ -430,7 +433,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -488,7 +491,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -545,7 +548,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken + "a";
@@ -602,7 +605,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() - SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() - securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -659,7 +662,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         mockMvc.perform(
@@ -718,7 +721,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -775,7 +778,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -832,7 +835,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -889,7 +892,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -946,7 +949,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken + "a";
@@ -1003,7 +1006,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() - SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() - securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;
@@ -1060,7 +1063,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         mockMvc.perform(
@@ -1119,7 +1122,7 @@ public class CartItemControllerTest {
         String mockToken = jwtUtil.generateToken(authentication);
 
         user.setToken(mockToken);
-        user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
         userRepository.save(user);
 
         String mockBearerToken = "Bearer " + mockToken;

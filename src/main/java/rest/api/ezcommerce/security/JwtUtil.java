@@ -27,10 +27,13 @@ public class JwtUtil {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SecurityConstants securityConstants;
+
     public String generateToken(Authentication authentication) {
         String email = authentication.getName();
         Date currDate = new Date();
-        Date expDate = new Date(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+        Date expDate = new Date(System.currentTimeMillis() + securityConstants.getJwtExpiration());
 
         String token = Jwts.builder()
                         .setSubject(email)

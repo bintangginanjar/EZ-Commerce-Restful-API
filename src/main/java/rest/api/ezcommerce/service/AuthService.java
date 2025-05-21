@@ -40,6 +40,9 @@ public class AuthService {
     private CustomUserDetailService userDetailService;
 
     @Autowired
+    private SecurityConstants securityConstants;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
@@ -73,7 +76,7 @@ public class AuthService {
             String token = jwtUtil.generateToken(authentication);
 
             user.setToken(token);
-            user.setTokenExpiredAt(System.currentTimeMillis() + SecurityConstants.JWTexpiration);
+            user.setTokenExpiredAt(System.currentTimeMillis() + securityConstants.getJwtExpiration());
             userRepository.save(user);
             
             return ResponseMapper.ToTokenResponseMapper(user, token, roles);
